@@ -1,6 +1,6 @@
 package com.example.loancontrol.service;
 
-import model.ivCipherPair;
+import com.example.loancontrol.model.ivCipherPair;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

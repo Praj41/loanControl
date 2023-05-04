@@ -1,33 +1,8 @@
 package com.example.loancontrol;
 
-import com.example.loancontrol.contracts.TransferToken;
 import com.example.loancontrol.service.encryptionService;
-import model.ivCipherPair;
+import com.example.loancontrol.model.ivCipherPair;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.web3j.crypto.Credentials;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.ClientTransactionManager;
-import org.web3j.tx.RawTransactionManager;
-import org.web3j.tx.TransactionManager;
-import org.web3j.tx.Transfer;
-import org.web3j.tx.gas.DefaultGasProvider;
-import org.web3j.utils.Convert;
-
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
-import java.util.Base64;
 
 @SpringBootApplication
 public class LoanControlApplication {

@@ -1,4 +1,4 @@
-package model;
+package com.example.loancontrol.model;
 
 public class ivCipherPair {
     private byte[] iv;
