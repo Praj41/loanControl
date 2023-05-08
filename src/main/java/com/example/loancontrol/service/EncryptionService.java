@@ -12,7 +12,7 @@ import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
-public class encryptionService {
+public class EncryptionService {
 
     private static final SecureRandom random = new SecureRandom();
 

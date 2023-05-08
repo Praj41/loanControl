@@ -17,13 +17,17 @@ public class DigitalAccount {
     @NotBlank
     @Size(max = 128)
     private String publicKey;
-    @NotBlank
-    @Size(max = 128)
+
+    @Transient
     private String TxPass;
 
     @NotBlank
     @Size(max = 128)
     private String IV;
+
+
+    @OneToOne
+    private User user;
 
     public Integer getId() {
         return id;
@@ -63,5 +67,13 @@ public class DigitalAccount {
 
     public void setIV(String IV) {
         this.IV = IV;
+    }
+
+    public User getUserId() {
+        return user;
+    }
+
+    public void setUserId(User userId) {
+        this.user = userId;
     }
 }

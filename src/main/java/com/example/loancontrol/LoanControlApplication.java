@@ -1,7 +1,6 @@
 package com.example.loancontrol;
 
-import com.example.loancontrol.service.encryptionService;
-import com.example.loancontrol.model.ivCipherPair;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
@@ -9,7 +8,7 @@ public class LoanControlApplication {
 
 
     public static void main(String[] args) throws Exception {
-        //SpringApplication.run(LoanControlApplication.class, args);
+        SpringApplication.run(LoanControlApplication.class, args);
 
         //Transfer token to another account
 
@@ -34,12 +33,11 @@ public class LoanControlApplication {
         transfer();
 
         System.out.println("Balance After :" + client.ethGetBalance("0x2f71CA3d31Cb091B8A67F28F229700F307B6ed9e", DefaultBlockParameterName.LATEST).send().getBalance());
-*/
 
         ivCipherPair secret = encryptionService.encryptPrivateKey("2fd0793c7604e3642be5034552d563a9eb9841b9eccfba2a6b1a40b33ce1bff3", "password");
 
         encryptionService.decryptPrivateKey(secret, "password");
-
+*/
     }
 
 }
