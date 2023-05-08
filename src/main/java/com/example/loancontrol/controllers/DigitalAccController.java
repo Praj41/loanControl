@@ -27,7 +27,7 @@ public class DigitalAccController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping ("/create")
+    @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> create(Authentication authentication, @RequestBody DigitalAccount digitalAccount) {
 
@@ -45,4 +45,15 @@ public class DigitalAccController {
 
         return ResponseEntity.ok("Digital Account created successfully!");
     }
+
+    @PostMapping("/getPrivateKey")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getPrivateKey(Authentication authentication, @RequestBody DigitalAccount digitalAccount) {
+
+        DigitalAccount account = digitalAccRepository.findByUser(userRepository.getReferenceById(((UserDetailsImpl) authentication.getPrincipal()).getId()));
+
+
+        return ResponseEntity.ok(EncryptionService.decryptPrivateKey(new ivCipherPair(Base64.getDecoder().decode(account.getIV()), Base64.getDecoder().decode(account.getPrivateKey())), digitalAccount.getTxPass()));
+    }
+
 }
