@@ -1,6 +1,11 @@
 package com.example.loancontrol.service;
 
+import com.example.loancontrol.model.DigitalAccount;
 import com.example.loancontrol.model.ivCipherPair;
+import com.example.loancontrol.repository.DigitalAccRepository;
+import com.example.loancontrol.repository.UserRepository;
+import com.example.loancontrol.security.services.UserDetailsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;

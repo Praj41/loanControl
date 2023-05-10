@@ -1,6 +1,8 @@
 package com.example.loancontrol.service;
 
 import com.example.loancontrol.contracts.TransferToken;
+import com.example.loancontrol.payload.response.TransactionResponse;
+import org.springframework.stereotype.Service;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -14,10 +16,12 @@ import org.web3j.utils.Convert;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
+@Service
 public class BlockchainService {
-
-    static void transfer() throws IOException {
+/*
+    public void transfer() throws IOException {
         Web3j client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
         System.out.println(client.web3ClientVersion().send().getWeb3ClientVersion());
 
@@ -29,7 +33,7 @@ public class BlockchainService {
 
         String toAddress = "0x2f71CA3d31Cb091B8A67F28F229700F307B6ed9e";
 
-        System.out.println("Sending 0.10860502316750395 ");
+        System.out.println("Sending 0.010860502316750395 ");
 
         BigDecimal amountInEther = new BigDecimal("10860502316750395");
 
@@ -48,10 +52,10 @@ public class BlockchainService {
 
 
     }
+*/
 
 
-
-    static void deploy() throws IOException {
+    public void deploy() throws IOException {
         Web3j client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
         System.out.println(client.web3ClientVersion().send().getWeb3ClientVersion());
 
@@ -71,7 +75,7 @@ public class BlockchainService {
         }
     }
 
-    static void addCompany(String address, TransferToken contract) {
+    public void addCompany(String address, TransferToken contract) {
 
         try {
 
@@ -87,7 +91,7 @@ public class BlockchainService {
 
     }
 
-    static void validateCompany(String address, TransferToken contract) {
+    public void validateCompany(String address, TransferToken contract) {
 
         try {
             TransactionReceipt tx = contract.Verfy_Comp(address).send();
@@ -101,12 +105,54 @@ public class BlockchainService {
         }
     }
 
-    static void checkCompany(String address, TransferToken contract) {
+    public void checkCompany(String address, TransferToken contract) {
 
         try {
             System.out.println("The company is verified: " + contract.is_Verified(address));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public TransactionResponse transfer(String privateKey, String receiverAddress, BigDecimal amount) throws IOException {
+        Web3j client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
+
+        System.out.println(client.web3ClientVersion().send().getWeb3ClientVersion());
+
+        Credentials fromCredentials = Credentials.create(privateKey);
+
+        //Credentials toCredentials = Credentials.create("2fd0793c7604e3642be5034552d563a9eb9841b9eccfba2a6b1a40b33ce1bff3");
+
+        System.out.println("Sending : " + amount);
+
+        amount = amount.multiply(new BigDecimal("1000000000000000000"));
+
+        try {
+
+            TransactionManager transactionManager = new RawTransactionManager(client, fromCredentials, 80001);
+
+            TransactionReceipt receipt = new Transfer(client, transactionManager).sendFunds(receiverAddress, amount, Convert.Unit.WEI).send();
+
+            BigDecimal fee = new BigDecimal(new BigInteger(receipt.getEffectiveGasPrice().substring(2), 16)).multiply(new BigDecimal(receipt.getGasUsed())).scaleByPowerOfTen(-18);
+
+            System.out.println("Transaction hash: " + receipt.getTransactionHash());
+            System.out.println("Transaction status: " + receipt.getStatus());
+            System.out.println("Transaction gas used: " + fee);
+            System.out.println("Total Transaction cost: " + fee.add(amount.divide(new BigDecimal("1000000000000000000"))));
+
+            return new TransactionResponse(receipt.getTransactionHash(), receipt.getStatus(), fee);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+            return new TransactionResponse("Error", "Error", BigDecimal.valueOf(0));
+        }
+
+    }
+
+    public TransactionReceipt getTransactionDetails(String txnId) throws IOException {
+        Web3j client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
+
+        return client.ethGetTransactionReceipt(txnId).send().getTransactionReceipt().get();
     }
 }
