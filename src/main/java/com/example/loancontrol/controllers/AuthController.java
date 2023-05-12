@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
+
 
 import com.example.loancontrol.model.Role;
 import com.example.loancontrol.model.ERole;
@@ -18,6 +18,7 @@ import com.example.loancontrol.repository.UserRepository;
 import com.example.loancontrol.security.jwt.JwtUtils;
 import com.example.loancontrol.security.services.UserDetailsImpl;
 import com.example.loancontrol.repository.RoleRepository;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import javax.validation.Valid;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)

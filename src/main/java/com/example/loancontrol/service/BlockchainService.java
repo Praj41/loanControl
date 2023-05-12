@@ -3,6 +3,7 @@ package com.example.loancontrol.service;
 import com.example.loancontrol.contracts.TransferToken;
 import com.example.loancontrol.payload.response.TransactionResponse;
 import org.springframework.stereotype.Service;
+import org.web3j.abi.datatypes.Bool;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -105,13 +106,18 @@ public class BlockchainService {
         }
     }
 
-    public void checkCompany(String address, TransferToken contract) {
+    public Boolean checkCompany(String address, TransferToken contract) {
+
+        Boolean isVerified = false;
 
         try {
-            System.out.println("The company is verified: " + contract.is_Verified(address));
+            isVerified = contract.is_Verified(address);
+            System.out.println("The company is verified: " + isVerified);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return isVerified;
     }
 
     public TransactionResponse transfer(String privateKey, String receiverAddress, BigDecimal amount) throws IOException {
