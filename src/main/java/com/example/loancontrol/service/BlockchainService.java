@@ -99,7 +99,7 @@ public class BlockchainService {
 
             System.out.println("Transaction hash: " + tx.getTransactionHash());
             System.out.println("Transaction status: " + tx.getStatus());
-            System.out.println("Transaction gas used: " + tx.getGasUsed());
+            System.out.println("Transaction gas used: " + new BigDecimal(new BigInteger(tx.getEffectiveGasPrice().substring(2), 16)).multiply(new BigDecimal(tx.getGasUsed())).scaleByPowerOfTen(-18));
 
         } catch (Exception e) {
             e.printStackTrace();

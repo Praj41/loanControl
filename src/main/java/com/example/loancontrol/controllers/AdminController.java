@@ -29,7 +29,7 @@ public class AdminController {
     TransferToken contract;
     public AdminController() throws IOException {
         client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
-        System.out.println(client.web3ClientVersion().send().getWeb3ClientVersion());
+        System.out.println("Loading Company Contract\n" + client.web3ClientVersion().send().getWeb3ClientVersion());
 
         transactionManager = new RawTransactionManager(client, Credentials.create("2fd0793c7604e3642be5034552d563a9eb9841b9eccfba2a6b1a40b33ce1bff3"), 80001);
         contract = TransferToken.load("0x90010037942f8d8d9c865d059ef76172d8c64a12", client, transactionManager, new DefaultGasProvider());
