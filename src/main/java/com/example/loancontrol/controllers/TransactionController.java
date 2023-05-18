@@ -10,12 +10,14 @@ import com.example.loancontrol.security.services.UserDetailsImpl;
 import com.example.loancontrol.service.BlockchainService;
 import com.example.loancontrol.service.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
+import java.util.Objects;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -55,7 +57,13 @@ public class TransactionController {
         TransactionResponse response = null;
         try {
             response = blockchainService.transfer(privateKey, transactionRequest.getReceiverAddress(), transactionRequest.getAmount());
-            return ResponseEntity.ok(response);
+            if (response.getStatus().charAt(0) == 'i') {
+                return new ResponseEntity<>("Insufficient funds", HttpStatus.INSUFFICIENT_STORAGE);
+            } else if (Objects.equals(response.getStatus(), "0x1")) {
+                return ResponseEntity.ok(response);
+            } else {
+                return new ResponseEntity<>("Transaction failed check address", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("Error");
