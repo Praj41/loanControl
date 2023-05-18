@@ -71,7 +71,9 @@ public class DigitalAccController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getPrivateKey(Authentication authentication, @RequestBody DigitalAccount digitalAccount) {
 
-        DigitalAccount account = digitalAccRepository.findByUser(userRepository.getReferenceById(((UserDetailsImpl) authentication.getPrincipal()).getId()));
+        User user = userRepository.getReferenceById(((UserDetailsImpl) authentication.getPrincipal()).getId());
+
+        DigitalAccount account = digitalAccRepository.findByUser(user);
 
 
         return ResponseEntity.ok(EncryptionService.decryptPrivateKey(new ivCipherPair(Base64.getDecoder().decode(account.getIV()), Base64.getDecoder().decode(account.getPrivateKey())), digitalAccount.getTxPass()));

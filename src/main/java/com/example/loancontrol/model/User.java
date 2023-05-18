@@ -50,6 +50,14 @@ public class User {
         this.password = password;
     }
 
+    public DigitalAccount getDigitalAccount() {
+        return digitalAccount;
+    }
+
+    public void setDigitalAccount(DigitalAccount digitalAccount) {
+        this.digitalAccount = digitalAccount;
+    }
+
     public Long getId() {
         return id;
     }

@@ -156,6 +156,12 @@ public class BlockchainService {
 
     }
 
+    public BigDecimal getBalance(String address) throws IOException {
+        Web3j client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
+
+        return new BigDecimal(client.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance());
+    }
+
     public TransactionReceipt getTransactionDetails(String txnId) throws IOException {
         Web3j client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
 

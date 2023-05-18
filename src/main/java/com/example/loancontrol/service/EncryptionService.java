@@ -93,10 +93,6 @@ public class EncryptionService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         return "";
     }
-
-
 }
