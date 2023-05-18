@@ -75,36 +75,36 @@ public class TransferToken extends Contract {
         return executeRemoteCallTransaction(function);
     }
 
+    public Boolean is_Verified(String comp_addr) throws IOException {
+        final Function function = new Function(
+                FUNC_IS_VERIFIED,
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(comp_addr)),
+                Arrays.asList(new TypeReference<Bool>(){}));
+        return executeCallSingleValueReturn(function, Boolean.class);
+    }
+
     public RemoteCall<TransactionReceipt> delete_Comp(String comp_addr) {
         final Function function = new Function(
-                FUNC_DELETE_COMP, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(comp_addr)), 
+                FUNC_DELETE_COMP,
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(comp_addr)),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
 
     public RemoteCall<TransactionReceipt> getBal() {
         final Function function = new Function(
-                FUNC_GETBAL, 
-                Arrays.<Type>asList(), 
+                FUNC_GETBAL,
+                Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
 
     public RemoteCall<TransactionReceipt> isOwner() {
         final Function function = new Function(
-                FUNC_ISOWNER, 
-                Arrays.<Type>asList(), 
+                FUNC_ISOWNER,
+                Arrays.<Type>asList(),
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
-    }
-
-    public Boolean is_Verified(String comp_addr) throws IOException {
-        final Function function = new Function(
-                FUNC_IS_VERIFIED, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(comp_addr)),
-                Arrays.asList(new TypeReference<Bool>(){}));
-        return executeCallSingleValueReturn(function, Boolean.class);
     }
 
     public RemoteCall<TransactionReceipt> newCompany(String comp_addr) {

@@ -151,7 +151,7 @@ public class BlockchainService {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error: " + e.getMessage());
-            return new TransactionResponse("Error", "Error", BigDecimal.valueOf(0));
+            return new TransactionResponse("Error", e.getMessage(), BigDecimal.valueOf(0));
         }
 
     }
