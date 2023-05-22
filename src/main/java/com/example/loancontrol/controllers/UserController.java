@@ -32,7 +32,7 @@ public class UserController {
         User user = userRepository.findById(((UserDetailsImpl) authentication.getPrincipal()).getId()).get();
 
         try {
-            BigDecimal balance = blockchainService.getBalance("0x" + user.getDigitalAccount().getPublicKey()).divide(new BigDecimal("1000000000000000000"));
+            BigDecimal balance = blockchainService.getBalance(user.getDigitalAccount().getPublicKey()).divide(new BigDecimal("1000000000000000000"));
             DashboardResponse response = new DashboardResponse(user, balance);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {

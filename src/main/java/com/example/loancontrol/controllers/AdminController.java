@@ -1,8 +1,11 @@
 package com.example.loancontrol.controllers;
 
 import com.example.loancontrol.contracts.TransferToken;
+import com.example.loancontrol.model.Company;
+import com.example.loancontrol.repository.CompanyRepository;
 import com.example.loancontrol.service.BlockchainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.web3j.crypto.Credentials;
@@ -26,7 +29,11 @@ public class AdminController {
     Web3j client;
 
     TransactionManager transactionManager;
+
     TransferToken contract;
+
+    @Autowired
+    CompanyRepository companyRepository;
     public AdminController() throws IOException {
         client = Web3j.build(new HttpService("https://matic-mumbai.chainstacklabs.com"));
         System.out.println("Loading Company Contract\n" + client.web3ClientVersion().send().getWeb3ClientVersion());
@@ -36,12 +43,21 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/create/{address}")
-    public String createCompany(@PathVariable String address) {
+    @PostMapping("/create")
+    public String createCompany(@RequestBody Company company) {
 
-        blockchainService.addCompany(address, contract);
+        blockchainService.addCompany(company.getAddress(), contract);
+
+        companyRepository.save(company);
 
         return "Company created successfully!";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getCompany() {
+
+        return ResponseEntity.ok(companyRepository.findAll());
     }
 
     @PreAuthorize("hasRole('ADMIN')")
